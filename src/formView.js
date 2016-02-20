@@ -1,12 +1,12 @@
 import $ from 'jquery';
 
 class FormView {
-    constructor(options){
-        this.$task = $("#task");
-        this.$date = $("#date");
-        this.$todoId = $("#todoId");
+    constructor(options) {
+        this.$task = $('#task');
+        this.$date = $('#date');
+        this.$todoId = $('#todoId');
         this.$submit = $('#formSubmit');
-        let onSubmit = options.onSubmit || (() => {});
+        const onSubmit = options.onSubmit || (() => {});
         this.$submit.on('click', (e) => {
             e.preventDefault();
             onSubmit({
@@ -16,25 +16,25 @@ class FormView {
             });
             this.resetForm();
         });
-    };
+    }
 
-    edit(todo){
+    edit(todo) {
         this.setForm(todo);
         this.$submit.val('Edit');
-    };
+    }
 
-    resetForm(){
+    resetForm() {
         this.$task.val('');
         this.$todoId.val('');
         this.$date.val('');
         this.$submit.val('Create');
-    };
+    }
 
-    setForm(todo){
+    setForm(todo) {
         this.$todoId.val(todo.id);
         this.$task.val(todo.task);
         this.$date.val(todo.date);
-    };
+    }
 }
 
 export default FormView;

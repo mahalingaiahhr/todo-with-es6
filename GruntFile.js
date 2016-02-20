@@ -6,7 +6,7 @@ module.exports=function(grunt){
                     transform:[['babelify',{'presets':"es2015"}]]
                 },
                 files: {
-                    './dist/bundle.js':['./src/main.js']
+                    './dist/bundle.js':['./src/app.js']
                 }
             }
         },
@@ -18,7 +18,7 @@ module.exports=function(grunt){
         },
 
         eslint: {
-            target: ['src/*listView.js']
+            target: ['src/**/*.js']
         },
 
         connect:{

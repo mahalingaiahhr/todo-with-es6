@@ -1,66 +1,66 @@
-import * as service from './service';
 import ListView from './listView';
 import FormView from './formView';
-import $ from 'jquery';
 
-var listView, formView;
+class Controller {
+    constructor(service) {
+        this.service = service;
+        this.formView = new FormView({
+            onSubmit: (todo) => {
+                this.onSubmit(todo);
+            }
+        });
+        this.listView = new ListView({
+            onEdit: (todo) => {
+                this.onEdit(todo);
+            },
+            onDelete: (todo) => {
+                this.onDelete(todo);
+            }
+        });
 
-function onSubmit(todo){
-    console.log("ssssssssss: "+todo.id);
-    if (todo.id) {
-        edit(todo);
-    } else {
-        create(todo);
+        this.service.load().then((data) => {
+            this.listView.showAll(data);
+        });
+    }
+
+    onSubmit(todo) {
+        if (todo.id) {
+            this.edit(todo);
+        } else {
+            this.create(todo);
+        }
+    }
+
+    create(todo) {
+        this.service.save(todo).then((data) => {
+            this.listView.add(data);
+        }).catch(function(cause) {
+            console.log('Unable to save - ' + cause);
+        });
+    }
+
+    onEdit(id) {
+        this.service.get(id).then((data) => {
+            this.formView.edit(data);
+        }).catch(function(cause) {
+            console.log('Todo item not found' + cause);
+        });
+    }
+
+    edit(todo) {
+        this.service.update(todo).then((data) => {
+            this.listView.update(data);
+        }).catch(function(cause) {
+            console.log('Unable to update - ' + cause);
+        });
+    }
+
+    onDelete(todo) {
+        this.service.remove(todo).then(() => {
+            console.log('Deleted.');
+        }).catch(() => {
+            this.listView.add(todo); // Add it back to list;
+        });
     }
 }
-
-function create(todo){
-    service.save(todo).then(function(data){
-        listView.add(data);
-    }).catch(function(cause){
-        console.log('Unable to save - '+cause);
-    });
-}
-
-function onEdit(id){
-    service.get(id).then(function(data){
-        formView.edit(data);
-    }).catch(function(cause){
-        console.log('Todo item not found'+cause);
-    });
-}
-
-function edit(todo){
-    service.update(todo).then(function(data){
-        listView.update(data);
-    }).catch(function(cause){
-        console.log('Unable to update - '+cause);
-    });
-}
-
-function onDelete(todo){
-    service.remove(todo).then(function(data){
-        console.log("Deleted.");
-    }).catch(function(cause){
-        listView.add(todo); //Add it back to list;
-    });
-}
-
-function init(){
-    listView = new ListView({
-        'container': $("#listcontainer"),
-        onEdit,
-        onDelete
-    });
-    formView = new FormView({onSubmit});
-    service.load().then(function(data){
-        listView.showAll(data);
-    });
-}
-
-export function start(){
-    console.log('Started init');
-    init();
-};
-
-export var greet="hi";
+export default Controller;

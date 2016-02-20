@@ -5,21 +5,20 @@ function generateDispalyContent(todo) {
     <a src="#" class="edit">Edit</a>&nbsp; <a src="#" class="delete">Delete</a>`;
 }
 
-var createHtml = function (todo) {
+var createHtml = function(todo) {
     return `<div id='${todo.id}'> ${generateDispalyContent(todo)} </div>`;
 };
 
 class ListView {
     constructor(options) {
-        this.container = options.container;
+        this.container = $('#listcontainer');
         var onEdit = options.onEdit;
-        this.container.on('click', '.edit', function (e) {
+        this.container.on('click', '.edit', function(e) {
             e.preventDefault();
             onEdit($(this).parent().attr('id'));
         });
-
         var onDelete = options.onDelete;
-        this.container.on('click', '.delete', function (e) {
+        this.container.on('click', '.delete', function(e) {
             e.preventDefault();
             var id = $(this).parent().attr('id');
             $(`#${id}`).remove();
@@ -36,7 +35,7 @@ class ListView {
     }
 
     showAll(todos) {
-        for (let todo of todos) {
+        for (const todo of todos) {
             this.add(todo);
         }
     }
