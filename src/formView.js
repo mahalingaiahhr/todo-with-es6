@@ -1,18 +1,16 @@
-import $ from 'jquery';
-
 class FormView {
     constructor(options) {
-        this.$task = $('#task');
-        this.$date = $('#date');
-        this.$todoId = $('#todoId');
-        this.$submit = $('#formSubmit');
+        this.task = document.getElementById('task');
+        this.date = document.getElementById('date');
+        this.todoId = document.getElementById('todoId');
+        this.submit = document.getElementById('formSubmit');
         const onSubmit = options.onSubmit || (() => {});
-        this.$submit.on('click', (e) => {
+        this.submit.addEventListener('click', (e) => {
             e.preventDefault();
             onSubmit({
-                id: this.$todoId.val(),
-                task: this.$task.val(),
-                date: this.$date.val()
+                id: this.todoId.value,
+                task: this.task.value,
+                date: this.date.value
             });
             this.resetForm();
         });
@@ -20,20 +18,20 @@ class FormView {
 
     edit(todo) {
         this.setForm(todo);
-        this.$submit.val('Edit');
+        this.submit.value = 'Edit';
     }
 
     resetForm() {
-        this.$task.val('');
-        this.$todoId.val('');
-        this.$date.val('');
-        this.$submit.val('Create');
+        this.task.value = '';
+        this.todoId.value = '';
+        this.date.value = '';
+        this.submit.value = 'Create';
     }
 
     setForm(todo) {
-        this.$todoId.val(todo.id);
-        this.$task.val(todo.task);
-        this.$date.val(todo.date);
+        this.todoId.value = todo.id;
+        this.task.value = todo.task;
+        this.date.value = todo.date;
     }
 }
 

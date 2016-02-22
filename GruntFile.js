@@ -21,6 +21,12 @@ module.exports=function(grunt){
             target: ['src/**/*.js']
         },
 
+        karma: {
+            main: {
+                configFile: 'karma.conf.js'
+            }
+        },
+
         connect:{
           server:{
             options: {
@@ -39,8 +45,8 @@ module.exports=function(grunt){
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks("grunt-eslint");
+    grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('default',["browserify"]);
-    grunt.registerTask('validate',["eslint"]);
+    grunt.registerTask('default',["eslint", 'karma', "browserify"]);
 
 };

@@ -7,15 +7,10 @@ class App {
         this.controller = new Controller(service);
     }
 
-    init() {
-
-    }
 }
 
-var app = null;
 function init() {
-    app = new App();
-    app.init();
+    var app = new App(); /* eslint no-unused-vars: 0*/
 }
 
 $(document).ready(init);
